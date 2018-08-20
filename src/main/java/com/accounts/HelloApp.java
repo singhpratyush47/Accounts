@@ -12,7 +12,7 @@ import java.util.List;
 
 public class HelloApp {
     public static void main(String[] args) {
-        AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         PersonService personService = (PersonService) context.getBean("personService");
 
         Person yashwant = new Person(1, "Yashwant", "Chavan", 32);
@@ -50,7 +50,5 @@ public class HelloApp {
         for (Person p: persons) {
             System.out.println(p);
         }
-
-        context.close();
     }
 }
