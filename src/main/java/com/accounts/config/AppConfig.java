@@ -36,7 +36,7 @@ public class AppConfig {
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource)
     {
-        JdbcTemplate jdbcTemplate=new JdbcTemplate();
+        JdbcTemplate jdbcTemplate= new JdbcTemplate(dataSource);
         jdbcTemplate.setResultsMapCaseInsensitive(true);
         return jdbcTemplate;
     }
