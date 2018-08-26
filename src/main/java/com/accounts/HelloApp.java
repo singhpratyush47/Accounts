@@ -1,8 +1,10 @@
 package com.accounts;
 
 import com.accounts.config.AppConfig;
+import com.accounts.entities.Announcement;
 import com.accounts.entities.Person;
 import com.accounts.repositories.PersonService;
+import com.accounts.services.AnnouncementsService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -13,6 +15,12 @@ import java.util.List;
 public class HelloApp {
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        AnnouncementsService announcementService=(AnnouncementsService)context.getBean("announcementService");
+        List<Announcement> announcementList=announcementService.getAnnouncements();
+        for(Announcement announcement:announcementList) {
+            System.out.println(announcement);
+        }
+        /*
         PersonService personService = (PersonService) context.getBean("personService");
 
         Person yashwant = new Person(1, "Yashwant", "Chavan", 32);
@@ -49,6 +57,6 @@ public class HelloApp {
         persons = personService.findAll();
         for (Person p: persons) {
             System.out.println(p);
+*/
         }
-    }
-}
+        }
