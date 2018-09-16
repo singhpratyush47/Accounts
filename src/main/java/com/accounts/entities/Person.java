@@ -1,12 +1,24 @@
 package com.accounts.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by PRATYUSH on 19-08-2018.
  */
+@Entity
+@Table(name = "person")
 public class Person {
+    @Id
+    @Column(name = "person_id")
     private int personId;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "age")
     private int age;
 
     public Person() {

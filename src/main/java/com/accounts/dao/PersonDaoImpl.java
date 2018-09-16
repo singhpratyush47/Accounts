@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -18,39 +20,36 @@ public class PersonDaoImpl implements PersonDao {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
     public void addPerson(Person person) {
-
-        jdbcTemplate.update("INSERT INTO person (person_id, first_name, Last_name, age) VALUES (?, ?, ?, ?)",
-                person.getPersonId(),person.getFirstName(),person.getLastName(),person.getAge());
-        System.out.println("Person Added!!");
+        entityManager.persist(person);
     }
 
     @Override
     public void editPerson(Person person, int personId) {
 
-        jdbcTemplate.update("UPDATE person SET first_name = ? , last_name = ? , age = ? WHERE person_id = ? ",
-                person.getFirstName(),person.getLastName(),person.getAge(),personId);
-        System.out.println("Edited Successfully!!");
+        entityManager.merge(person);
     }
 
     @Override
     public void deletePerson(int personId) {
 
-        jdbcTemplate.update("DELETE from person WHERE person_id = ?",personId);
-        System.out.println("Deleted Successfully!!");
+        //Code to remove Person
     }
 
     @Override
     public Person find(int personId) {
-        Person person=(Person)jdbcTemplate.queryForObject("SELECT * FROM person where person_id = ?",
-                new Object[]{personId}, new BeanPropertyRowMapper(Person.class));
+
+        Person person = entityManager.find(Person.class, personId);
         return person;
     }
 
     @Override
     public List<Person> findAll() {
-        List<Person> persons=jdbcTemplate.query("select * from person", new BeanPropertyRowMapper(Person.class));
-        return persons;
+        return entityManager.createQuery("select person  from Person person", Person.class).getResultList();
     }
 }

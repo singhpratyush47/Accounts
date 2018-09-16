@@ -7,16 +7,20 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
  * Created by PRATYUSH on 21-08-2018.
  */
-@Repository("announcementDao")
+@Repository
+@Qualifier("announcementDao")
 public class AnnouncementsDaoImpl implements AnnouncementsDao {
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
     public void addAnnouncement(Announcement announcement) {
     }
@@ -33,15 +37,11 @@ public class AnnouncementsDaoImpl implements AnnouncementsDao {
 
     @Override
     public Announcement find(int announcementId) {
-        Announcement announcement=(Announcement)jdbcTemplate.queryForObject("select * from announcement where announcement.announcement_id=?",
-                new Object[]{announcementId}, new BeanPropertyRowMapper(Announcement.class));
-        return announcement;
+        return null;
     }
 
     @Override
     public List<Announcement> findAll() {
-        List<Announcement> listOfAnnouncements=jdbcTemplate.query("select * from announcement",
-                new BeanPropertyRowMapper(Announcement.class));
-        return listOfAnnouncements;
+        return entityManager.createQuery("select announcement  from Announcement announcement", Announcement.class).getResultList();
     }
 }

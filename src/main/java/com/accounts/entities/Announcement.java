@@ -1,26 +1,47 @@
 package com.accounts.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.Date;
 
 /**
  * Created by PRATYUSH on 21-08-2018.
  */
+@Entity
+@Table(name = "announcement")
 public class Announcement {
 
+    @Id
+    @Column(name = "announcement_id")
     private Integer announcementId;
+    @Column(name = "unit_id")
     private Integer unitId;
+    @Column(name = "status_id")
     private Integer statusId;
+    @Column(name = "code")
     private String code;
+    @Column(name = "title")
     private String title;
+    @Column(name = "effective_date")
     private Date effectiveDate;
+    @Column(name = "expiration_date")
     private Date expirationDate;
+    @Column(name = "description")
     private String description;
+    @Column(name = "created_by")
     private Integer createdBy;
+    @Column(name = "created_date")
     private Timestamp createdDate;
+    @Column(name = "last_modified_by")
     private Integer lastModifiedBy;
+    @Column(name = "last_modified_date")
     private Timestamp lastModifieddate;
+    @Column(name = "ann_type")
     private String anntype;
+
 
 
     public Announcement() {

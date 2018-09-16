@@ -17,6 +17,6 @@ public interface AnnouncementsDao {
 
     public Announcement find(int announcementId);
 
-    public List< Announcement > findAll();
+    public List<Announcement> findAll();
 
 }

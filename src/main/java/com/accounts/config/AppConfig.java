@@ -7,7 +7,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 /**
@@ -17,6 +27,7 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan(basePackages = "com.accounts")
 @PropertySource(value = {"classpath:application.properties"})
+@EnableTransactionManagement
 public class AppConfig {
 
     @Autowired
@@ -39,6 +50,30 @@ public class AppConfig {
         JdbcTemplate jdbcTemplate= new JdbcTemplate(dataSource);
         jdbcTemplate.setResultsMapCaseInsensitive(true);
         return jdbcTemplate;
+    }
+
+    @Bean
+    public JpaVendorAdapter jpaVendorAdapter(){
+        HibernateJpaVendorAdapter adapter=new HibernateJpaVendorAdapter();
+        adapter.setShowSql(true);
+        adapter.setGenerateDdl(true);
+        adapter.setDatabase(Database.MYSQL);
+        return adapter;
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean managerFactoryBean(DataSource dataSource,JpaVendorAdapter jpaVendorAdapter){
+        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean=new LocalContainerEntityManagerFactoryBean();
+        localContainerEntityManagerFactoryBean.setDataSource(dataSource);
+        localContainerEntityManagerFactoryBean.setPackagesToScan("com.accounts.entities");
+        localContainerEntityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
+        return localContainerEntityManagerFactoryBean;
+    }
+
+    @Bean(name = "transactionManager")
+    public PlatformTransactionManager transactionManager(EntityManagerFactory localContainerEntityManagerFactoryBean)
+    {
+        return new JpaTransactionManager(localContainerEntityManagerFactoryBean);
     }
 
 }

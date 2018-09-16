@@ -15,48 +15,21 @@ import java.util.List;
 public class HelloApp {
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        AnnouncementsService announcementService=(AnnouncementsService)context.getBean("announcementService");
-        List<Announcement> announcementList=announcementService.getAnnouncements();
-        for(Announcement announcement:announcementList) {
-            System.out.println(announcement);
-        }
-        /*
-        PersonService personService = (PersonService) context.getBean("personService");
-
-        Person yashwant = new Person(1, "Yashwant", "Chavan", 32);
-        Person mahesh = new Person(2, "Mahesh", "Patil", 25);
-        Person vishal = new Person(3, "Vishal", "Naik", 40);
-
-        personService.addPerson(yashwant);
-        personService.addPerson(mahesh);
-        personService.addPerson(vishal);
-
-        System.out.println("Find All");
-        List< Person > persons = personService.findAll();
-        for (Person person: persons) {
+        PersonService personService=(PersonService)context.getBean("personService");
+        List<Person> personList=personService.findAll();
+        for(Person person:personList) {
             System.out.println(person);
         }
-
-        System.out.println("Delete person Id = 3");
-        int deleteMe = 3;
-        personService.deletePerson(deleteMe);
-
-        yashwant.setFirstName("Yashwant - Updated");
-        yashwant.setLastName("Chavan - Updated");
-        yashwant.setAge(40);
-
-        System.out.println("Update person Id = 1");
-        int updateMe = 1;
-        personService.editPerson(yashwant, updateMe);
-
-        System.out.println("Find person Id = 2");
-        Person person = personService.find(2);
+        Person person=personService.find(2);
+        System.out.println("--------------------------------------------------------------  ");
         System.out.println(person);
-
-        System.out.println("Find All Again");
-        persons = personService.findAll();
-        for (Person p: persons) {
-            System.out.println(p);
-*/
-        }
-        }
+        System.out.println("----------------------------UPDATE----------------------------------  ");
+       /* person.setLastName("Kumar");
+        personService.editPerson(person,2);
+        System.out.println(person);
+        System.out.println("----------------------------SAVING----------------------------------  ");
+        personService.addPerson(person);*/
+        /*Person p=new Person(4,"pratyush","Singh",23);
+        personService.addPerson(p);*/
+    }
+}

@@ -17,5 +17,5 @@ public interface PersonDao {
 
     public Person find(int personId);
 
-    public List< Person > findAll();
+    public List<Person> findAll();
 }
